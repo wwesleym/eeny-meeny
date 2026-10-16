@@ -1,4 +1,8 @@
-# Eeny Meeny
+# Eeny Meeny - https://wwesleym.github.io/eeny-meeny/
+
+vibe-coded, thanks claude
+
+---
 
 A silly pocket decision-maker for indecisive people. Plain HTML, CSS and JS. No build step, no dependencies.
 
