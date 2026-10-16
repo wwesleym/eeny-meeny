@@ -175,6 +175,8 @@
     var s = t; while (s.length > 2 && w(s + '…', 9) > maxW) s = s.slice(0, -1);
     return { lines: [s.trim() + '…'], fs: 9 };
   }
+    /* Slices always use the six light wheel colors. If the last slice would repeat the first one's color, use a different light color. */
+  function sliceColor(i, n) { var c = i % 6; return (n > 1 && i === n - 1 && c === 0) ? 2 : c; }
   function drawWheel() {
     if (!sizeWheel()) return; if (!pal) wheelPalette();
     var k = wc.width / U; wx.setTransform(k, 0, 0, k, 0, 0); wx.clearRect(0, 0, U, U);
@@ -188,7 +190,7 @@
     for (i = 0; i < n; i++) {
       var a0 = rot + i * seg, a1 = a0 + seg;
       wx.beginPath(); wx.moveTo(c, c); wx.arc(c, c, R, a0, a1); wx.closePath();
-      wx.fillStyle = (n > 1 && i === n - 1 && i % 6 === 0) ? pal.card : pal.cols[i % 6];
+      wx.fillStyle = pal.cols[sliceColor(i, n)];
       wx.fill(); wx.lineWidth = 2; wx.strokeStyle = pal.line; wx.stroke();
       var f = fitLabel(opts[i], maxW, maxH);
       wx.save(); wx.translate(c, c); wx.rotate(a0 + seg / 2); wx.textAlign = 'right'; wx.textBaseline = 'middle';
