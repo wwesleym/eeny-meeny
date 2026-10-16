@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eeny Meeny</title>
+<meta name="description" content="A silly pocket decision-maker: coin flip, wheel, number picker and oracle orb.">
+<meta name="theme-color" content="#E8F7FF">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="awning" aria-hidden="true"></div>
+<div class="app">
+  <header>
+    <h1 class="logo">EENY MEENY</h1>
+    <div class="tabs" role="tablist" aria-label="Decision tools" id="tabs"></div>
+  </header>
+
+  <main>
+    <!-- COIN -->
+    <section class="panel" id="p-coin" role="tabpanel">
+      <div class="card visual">
+        <div class="stage" id="stage">
+          <div class="puddle" id="puddle"></div>
+          <div class="arc" id="arc">
+            <div class="coin" id="coin" role="button" tabindex="0" aria-label="Coin. Tap to flip.">
+              <div class="face front">
+                <svg viewBox="0 0 100 100" aria-hidden="true">
+                  <circle cx="25" cy="30" r="10" fill="#FF9F45" stroke="#1F2A44" stroke-width="4"/>
+                  <circle cx="75" cy="30" r="10" fill="#FF9F45" stroke="#1F2A44" stroke-width="4"/>
+                  <ellipse cx="50" cy="55" rx="31" ry="27" fill="#FF9F45" stroke="#1F2A44" stroke-width="4"/>
+                  <path d="M50 33 V43 M41 35 L42 42 M59 35 L58 42" stroke="#1F2A44" stroke-width="4" stroke-linecap="round" fill="none"/>
+                  <path d="M20 53 L29 55 M21 62 L30 60 M80 53 L71 55 M79 62 L70 60" stroke="#1F2A44" stroke-width="4" stroke-linecap="round" fill="none"/>
+                  <circle cx="39" cy="52" r="3.6" fill="#1F2A44"/><circle cx="61" cy="52" r="3.6" fill="#1F2A44"/>
+                  <path d="M44 59 H56 L50 66 Z" fill="#1F2A44" stroke="#1F2A44" stroke-width="2" stroke-linejoin="round"/>
+                  <path d="M50 66 V70 M50 70 Q44 76 39 71 M50 70 Q56 76 61 71" stroke="#1F2A44" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+                </svg>
+              </div>
+              <div class="face back">
+                <svg viewBox="0 0 100 100" aria-hidden="true">
+                  <path d="M50 50 C42 34 62 30 55 14" stroke="#1F2A44" stroke-width="12" stroke-linecap="round" fill="none"/>
+                  <path d="M50 50 C42 34 62 30 55 14" stroke="#FF9F45" stroke-width="6" stroke-linecap="round" fill="none"/>
+                  <circle cx="55" cy="14" r="3.4" fill="#1F2A44"/>
+                  <ellipse cx="36" cy="88" rx="10" ry="5.5" fill="#FF9F45" stroke="#1F2A44" stroke-width="4"/>
+                  <ellipse cx="64" cy="88" rx="10" ry="5.5" fill="#FF9F45" stroke="#1F2A44" stroke-width="4"/>
+                  <circle cx="38" cy="66" r="19" fill="#FF9F45" stroke="#1F2A44" stroke-width="4"/>
+                  <circle cx="62" cy="66" r="19" fill="#FF9F45" stroke="#1F2A44" stroke-width="4"/>
+                  <path d="M50 49 V79" stroke="#1F2A44" stroke-width="4" stroke-linecap="round"/>
+                  <path d="M22 58 L30 61 M22 69 L30 69 M78 58 L70 61 M78 69 L70 69" stroke="#1F2A44" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="edge" id="edge" hidden></div>
+          </div>
+        </div>
+        <div class="inrow">
+          <input type="text" id="lblH" maxlength="24" placeholder="Heads is…" aria-label="What heads means" autocomplete="off">
+          <input type="text" id="lblT" maxlength="24" placeholder="Tails is…" aria-label="What tails means" autocomplete="off">
+          <button class="small" id="lblClear" type="button" aria-label="Clear both labels">Clear</button>
+        </div>
+      </div>
+      <button class="btn yellow" id="flip" type="button">FLIP IT</button>
+      <div class="card result" id="coinRes" aria-live="polite">
+        <div class="big">Your move.</div>
+        <div class="sub">Tap the coin or the button.</div>
+      </div>
+    </section>
+
+    <!-- WHEEL -->
+    <section class="panel" id="p-wheel" role="tabpanel" hidden>
+      <div class="card visual tight">
+        <div class="wheelbox">
+          <div class="wheelin" role="button" aria-label="Spin the wheel">
+            <svg class="pointer" viewBox="0 0 38 44" aria-hidden="true"><path d="M19 42 L3 8 Q19 -4 35 8 Z" fill="#FF5A5F" stroke="#1F2A44" stroke-width="3.5" stroke-linejoin="round"/></svg>
+            <canvas id="wheel" aria-label="Decision wheel"></canvas>
+          </div>
+        </div>
+      </div>
+      <button class="btn red" id="spin" type="button">SPIN</button>
+      <div class="card result" id="wheelRes" aria-live="polite">
+        <div class="big">Spin me.</div>
+        <div class="sub">I have no opinions. I am a wheel.</div>
+      </div>
+      <div class="card opts">
+        <div class="optsTop">
+          <span id="optNote">Options</span>
+          <span class="optbtns">
+            <button class="mini" id="optClear" type="button">Clear all</button>
+          </span>
+        </div>
+        <div class="inrow">
+          <input type="text" id="optIn" maxlength="28" placeholder="Add an option" aria-label="Add an option" autocomplete="off">
+          <button class="small go" id="optAdd" type="button">Add</button>
+        </div>
+        <div class="chips" id="chips"></div>
+      </div>
+    </section>
+
+    <!-- NUMBER -->
+    <section class="panel" id="p-number" role="tabpanel" hidden>
+      <div class="card visual center">
+        <div class="dialbox"><div class="dial" id="dial" aria-live="polite">7</div></div>
+        <div class="range">
+          <span>1 to</span>
+          <input type="number" id="maxN" inputmode="numeric" min="2" max="9999" value="10" aria-label="Highest number">
+        </div>
+        <div class="quick" id="quick"></div>
+      </div>
+      <button class="btn aqua" id="roll" type="button">ROLL</button>
+      <div class="card result" id="numRes" aria-live="polite">
+        <div class="big">Number go brrr.</div>
+        <div class="sub">7 is just an example. Roll for a real one.</div>
+      </div>
+    </section>
+
+    <!-- ORACLE -->
+    <section class="panel" id="p-oracle" role="tabpanel" hidden>
+      <div class="card visual">
+        <div class="seg" role="group" aria-label="Oracle mode">
+          <button type="button" id="modeYN" aria-pressed="true">Yes / No</button>
+          <button type="button" id="modeOpt" aria-pressed="false">Options</button>
+        </div>
+        <p class="hint" id="oraHint">Ask a yes or no question out loud, then ask the orb.</p>
+        <div class="orbbox">
+          <button class="orb" id="orb" type="button" aria-label="Ask the orb"><span class="win" id="orbWin">?</span></button>
+        </div>
+      </div>
+      <button class="btn sky" id="ask" type="button">ASK THE ORB</button>
+      <div class="card result answer tall" id="oraRes" aria-live="polite">
+        <div class="big">Ask away.</div>
+        <div class="sub">The orb has seen things. Mostly lint.</div>
+      </div>
+    </section>
+  </main>
+  <footer class="foot">Eeny Meeny &bull; 2026 &bull; <a href="https://github.com/wwesleym" target="_blank" rel="noopener noreferrer">GitHub</a></footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

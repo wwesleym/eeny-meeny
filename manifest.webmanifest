@@ -1,0 +1,10 @@
+{
+  "name": "Eeny Meeny",
+  "short_name": "Eeny Meeny",
+  "description": "A silly pocket decision-maker.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#E8F7FF",
+  "theme_color": "#E8F7FF",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
